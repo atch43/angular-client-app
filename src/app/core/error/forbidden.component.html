@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="error-template">
+        <h1>
+          Oops!</h1>
+        <h2>
+          {{errorStatus}}!</h2>
+        <div class="error-details">
+          Sorry, an error has occured, {{errorMessage}}
+        </div>
+        <div class="" *ngIf="errorStatus == '401'">
+          Please
+          <a href="/">login</a>
+          to see this page</div>
+      </div>
+    </div>
+  </div>
+</div>

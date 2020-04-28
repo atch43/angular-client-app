@@ -1,0 +1,13 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light top-menu">
+    <span>
+      <a class="nav-link" *ngIf="!isAuthenticated()" routerLink="/">Login</a>
+    </span>
+    <span>
+      <a class="nav-link" *ngIf="isAdmin()" routerLink="/users">Users</a>
+    </span>
+    <span>
+      <a class="nav-link" *ngIf="isAuthenticated()" routerLink (click)="logout()">logout</a>
+    </span>
+</nav>
+
+<router-outlet></router-outlet>

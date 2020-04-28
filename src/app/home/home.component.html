@@ -1,0 +1,8 @@
+<div class="alert alert-success align-center" *ngIf="isAuthenticated()" role="alert">
+    <h4 class="alert-heading">Welcome {{getUsername()}}!</h4>
+    <p class="mb-0">{{getPrivilege()}}</p>
+</div>
+
+<div class="alert alert-success align-center" *ngIf="!isAuthenticated()" role="alert">
+    <h4 class="alert-heading">Welcome!</h4>
+    <p class="mb-0">Click <a class="pointer" (click)="goToLogin()">here to login</a></p>

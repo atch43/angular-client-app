@@ -1,0 +1,92 @@
+<div class="container padding-10 relative">
+
+    <h3>Profile</h3>
+
+    <form [formGroup]="userForm" class="custom-form" [hidden]="submitted" *ngIf="!showError">
+
+        <div class="form-group" *ngIf="isAdmin()">
+            <label for="id">ID</label>
+            <input type="text" formControlName="id" id="id" class="form-control" id="id">
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">First name</label>
+            <input type="text" formControlName="firstName" name="firstName" class="form-control" id="firstName" required>
+
+            <small class="form-text text-primary"
+                *ngIf="userForm.get('firstName').touched && userForm.get('firstName').hasError('required')">
+                First name required
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="lastName">Last name</label>
+            <input type="text" formControlName="lastName" name="lastName" class="form-control" id="lastName" required>
+            <small class="form-text text-primary"
+                *ngIf="userForm.get('lastName').touched && userForm.get('lastName').hasError('required')">
+                Last name required
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" formControlName="username" class="form-control" id="username" minlength="3" required
+                name="username">
+            <small class="form-text text-primary"
+                *ngIf="userForm.get('username').touched && userForm.get('username').hasError('required')">
+                Username required
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="dob">Date</label>
+            <input type="date" formControlName="dob" (change)="onDateChange($event.target.value)" class="form-control"
+                id="dob" required name="dob">
+        </div>
+
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" formControlName="age" class="form-control" id="age" name="age">
+        </div>
+
+
+
+        <div class="form-group">
+            <label for="telephone">Telephone</label>
+            <input type="text" formControlName="telephone" class="form-control" id="telephone" required name="telephone">
+            <small class="form-text text-primary"
+                *ngIf="userForm.get('telephone').touched && userForm.get('telephone').hasError('required')">
+                telephone required
+            </small>
+            <small class="form-text text-primary"
+                *ngIf="userForm.get('telephone').touched && userForm.get('telephone').hasError('invalidNumber')">
+                invalid telephone
+            </small>
+        </div>
+
+        <div class="form-group">
+            <label for="sex">Gender:</label>
+            <select id="sex" formControlName="sex" class="form-control" name="sex">
+                <option ngValue="M" [selected]="'M'==user?.sex">Maschile</option>
+                <option ngValue="F" [selected]="'F'==user?.sex">Femmina</option>
+                <option ngValue="NA" [selected]="'NA'==user?.sex">Preferisco non rispondere</option>
+            </select>
+        </div>
+
+            <button type="submit" (click)="Submit()" [disabled]="checkDisabled()"
+                class="btn btn-primary pull-right mb-3">Submit</button>
+    </form>
+
+    <div *ngIf="showError" class="align-center">
+        <span class="text-primary">
+            {{errorMessage}} <img width=20 height=20 (click)="Reload()" class="mr-2 ml-2 pointer"
+                src="../../assets/reload.png" />
+        </span>
+    </div>
+
+    <div class="loader" role="status" [hidden]="!showSpinner">
+        <span class="sr-only">Loading...</span>
+    </div>
+
+
+</div>

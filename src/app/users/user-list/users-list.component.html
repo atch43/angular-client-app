@@ -1,0 +1,105 @@
+<div class="padding-10">
+    <div class="col-sm-12">
+        <h3>Users</h3>
+        <form id="searchForm" #form="ngForm" class="custom-form col-sm-7">
+            <div class="row">
+                <div class="input-group">
+                    <input type="text" class="form-control" [disabled]="advancedSearch" [(ngModel)]="searchString"
+                        name="searchString" placeholder="Search all" aria-label="Search all"
+                        aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-primary mt-0 mb-15" [disabled]="advancedSearch"
+                            (click)="searchAll(pager.currentPage);"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <label for="advanced" class="mr-2">Advanced</label>
+            <input id="advanced" type="checkbox" [checked]="advancedSearch" (change)="changeStatus($event)">
+            
+            <div class="row" [@slideInOut]="advancedSearch">
+                <div class="form-inline">
+                    <input type="text" placeholder="ID" class="form-control mr-5" [(ngModel)]="searchId"
+                        name="searchId" />
+                    <input type="text" placeholder="Username" class="form-control mr-5" [(ngModel)]="searchUsername"
+                        name="searchUsername" />
+                    <input type="text" placeholder="Nominative" class="form-control mr-5" [(ngModel)]="searchNominative"
+                        name="searchNominative" />
+                    <select class="form-control mr-5" [(ngModel)]="sortField" name="sortField">
+                            <option value="id">Sort By..</option>
+                            <option value="id" selected="true">ID</option>
+                            <option value="username">Username</option>
+                        <option value="nominative">Nominative</option>
+                    </select>
+                    <img width=30 height=30 (click)="changeSearchSort()" class="mr-5 ml-2 pointer"
+                        [src]="toggleSort(sortAsc)" />
+                    <button class="btn btn-primary mt-0" (click)="searchFields(pager.currentPage)" type="button"><i
+                            class="fa fa-search"></i></button>
+                </div>
+            </div>
+
+        </form>
+        <form #pagerForm="ngForm">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th scope="col" sortable="id" (sort)="onSort($event)">ID</th>
+                        <th scope="col" sortable="username" (sort)="onSort($event)">Username</th>
+                        <th scope="col" sortable="nominative" (sort)="onSort($event)">Nominative</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of pagedItems">
+                        <th scope="row">{{ user.id }}</th>
+                        <td>{{ user.username }}</td>
+                        <td>{{user.lastName}} {{user.firstName}}</td>
+                        <td class="custom-form">
+                            <button (click)="goToProfile(user.username)" class="btn btn-secondary">Details</button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                        <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item pointer">
+                            <a class="page-link" (click)="setPage(pager.currentPage - 1)">Previous</a>
+                        </li>
+                        <li class="page-item">
+                            <input type="number" [value]="pager.currentPage" name="page" (focusout)="pageFocusOut()"
+                                [(ngModel)]="pager.currentPage" [max]="pager.totalPages" [min]="1"
+                                class="form-control width-40" />
+                        </li>
+                        <li class="page-item"><span class="padding-10 font-20">of</span></li>
+                        <li class="page-item">
+                            <input type="number" [value]="pager.totalPages" class="form-control width-40" disabled />
+                        </li>
+                        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item pointer">
+                            <a class="page-link" (click)="setPage(pager.currentPage + 1)">Next</a>
+                        </li>
+                        <span class="custom-form">
+                            <input type="button" class="custom-form btn btn-primary mt-0 mb-0" value="Go"
+                                (click)="setPage(pager.currentPage)" />
+                        </span>
+                    </ul>
+                </tfoot>
+
+            </table>
+        </form>
+        <div *ngIf="!pagedItems?.length" class="align-center">
+            <div *ngIf="showError">
+                <span class="align-center text-primary">
+                    {{errorMessage}} <img width=20 height=20 (click)="Reload()" class="mr-2 ml-2 pointer"
+                        src="../../assets/reload.png" />
+                </span>
+            </div>
+            <div *ngIf="!showError">
+                No data found..
+            </div>
+        </div>
+
+    </div>
+
+    <div class="loader" role="status" [hidden]="!showSpinner">
+        <span class="sr-only">Loading...</span>
+    </div>
+</div>

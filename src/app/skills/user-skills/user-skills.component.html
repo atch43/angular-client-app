@@ -1,0 +1,21 @@
+<script src="/node_modules/chart.js/dist/Chart.js"></script>
+<div class="padding-10">
+
+    <h3>Skills</h3>
+    <label>Compare to: </label>
+    <div class="row">
+    <select class="form-control col-sm-4" [(ngModel)]="selectedUser">
+            <option *ngFor="let user of users; let i = index" [value]="user.username"  [selected]="i == 0">
+                {{user.username}}
+            </option>
+        </select>
+        <input type="button" class="btn btn-success col-sm-1" value="Go" (click)="compareTo(selectedUser)">
+    </div>
+    <div>
+        <canvas id="marksChart" width="200" height="200"></canvas>
+    </div>
+   
+</div>
+<script>
+ 
+    </script>

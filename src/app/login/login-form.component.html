@@ -1,0 +1,62 @@
+<div class="padding-10 row justify-content-sm-center">
+    <div class="col"></div>
+    <div class="col padding-20">
+        <h1>Welcome!</h1>
+        This is an example project for managing user profiles
+        <span *ngIf="!isAuthenticated()">
+            , please login using
+            <span (mouseover)="changeText=true" (mouseout)="changeText=false">
+                <span *ngIf="!changeText" class="hover-fade">admin:pass1</span>
+                <span *ngIf="changeText">admin:pass1</span>
+            </span>
+            to access the website.
+        </span>
+    </div>
+
+    <div class="col padding-20 form-border min-height-300">
+        <form class="custom-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" [hidden]="submitted"
+            *ngIf="!isAuthenticated()">
+
+            <div class="form-group">
+                <input type="username" formControlName="username" placeholder="Username" class="form-control"
+                    id="username" required name="username">
+                <small class="form-text text-primary"
+                    *ngIf="loginForm.get('username').touched && loginForm.get('username').hasError('required')">
+                    This field is required
+                </small>
+                <small class="form-text text-primary"
+                    *ngIf="loginForm.get('username').touched && loginForm.get('username').hasError('invalidUsername')">
+                    Invalid email
+                </small>
+            </div>
+
+            <div class="form-group">
+                <input type="password" formControlName="password" placeholder="Password" class="form-control"
+                    id="password" required name="password">
+                <small class="form-text text-primary"
+                    *ngIf="loginForm.get('password').touched && loginForm.get('password').hasError('required')">
+                    This field is required
+                </small>
+                <small class="form-text text-primary"
+                    *ngIf="loginForm.get('password').touched && loginForm.get('password').hasError('invalidPassword')">
+                    Password must contain: an uppercase, lowercase, number and a character
+                </small>
+            </div>
+            <small class="form-text text-primary" *ngIf="hasErrorMessage()">
+                {{errorMessage}}
+            </small>
+
+            <button type="submit" class="btn btn-primary" [disabled]="checkDisabled()">Submit</button>
+
+            <div class="loader" role="status" [hidden]="!showSpinner">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </form>
+        <h3 class="align-center" *ngIf="isAuthenticated()">
+            <span class="text-primary">{{getUsername() }} ({{getPrivilege()}}) </span> logged in
+        </h3>
+
+
+    </div>
+    <div class="col"></div>
+</div>
